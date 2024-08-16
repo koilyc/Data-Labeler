@@ -27,7 +27,7 @@ class OCRModel:
             raise ValueError(f"Path {image_path} is not a valid image.")
 
         recognition_result = self.model.ocr(image_path, cls=True)[0]
-        
+
         if recognition_result:
             self._recognition_boxes = [line[0] for line in recognition_result]
             self._recognition_texts = [line[1][0] for line in recognition_result]
