@@ -2,7 +2,7 @@ import tkinter as tk
 import utilities.constants as Constants
 
 from PIL import Image, ImageTk
-from controller.view_controller.image_editor_controller import ImageEditorController
+from controller.view_controller.main_frame.image_editor.image_editor_controller import ImageEditorController
 from view.main_frame.image_editor.box_drawer import BoxDrawer
 from view.main_frame.image_info import ImageInfo
 

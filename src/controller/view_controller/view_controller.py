@@ -1,8 +1,8 @@
 import tkinter as tk
 
-from controller.view_controller.main_frame_controller import MainFrameController
+from controller.view_controller.main_frame.main_frame_controller import MainFrameController
 from view.view import View
-from view.top_toolbar import TopToolbar
+from view.top_toolbar.top_toolbar import TopToolbar
 
 
 class ViewController:

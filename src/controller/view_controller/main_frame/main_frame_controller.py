@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from controller.view_controller.image_editor_controller import ImageEditorController
+from controller.view_controller.main_frame.image_editor.image_editor_controller import ImageEditorController
 from controller.model_controller.data_controller import DataController
 from controller.model_controller.ocr_controller import OCRController
 from controller.model_controller.settings_controller import SettingsController
