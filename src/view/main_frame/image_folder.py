@@ -1,8 +1,8 @@
 import os
 import tkinter as tk
 
-from controller.data_controller import DataController
-from controller.settings_controller import SettingsController
+from controller.model_controller.data_controller import DataController
+from controller.model_controller.settings_controller import SettingsController
 from view.main_frame.image_editor.image_editor import ImageEditor
 
 

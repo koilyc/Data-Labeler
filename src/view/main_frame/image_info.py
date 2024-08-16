@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from controller.ocr_controller import OCRController
+from controller.model_controller.ocr_controller import OCRController
 
 
 class ImageInfo:
