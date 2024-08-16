@@ -66,7 +66,7 @@ class ImageFolder:
 
     def update_folder_name(self):
         folder_basename = os.path.basename(os.path.normpath(self.folder_path))
-        self.folder_path_stringvar.set(folder_basename)
+        self.folder_path_stringvar.set(folder_basename + '/')
 
     def on_image_select(self, event) -> None:
         if self.listbox.size() > 0 and self.listbox.curselection():
