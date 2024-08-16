@@ -1,5 +1,6 @@
 import tkinter as tk
 
+from controller.view_controller.image_editor_controller import ImageEditorController
 from controller.model_controller.data_controller import DataController
 from controller.model_controller.ocr_controller import OCRController
 from controller.model_controller.settings_controller import SettingsController
@@ -13,12 +14,13 @@ class MainFrameController:
     def __init__(self, parent: tk.Tk) -> None:
         self.main_frame = MainFrame(parent)
 
+        self.image_editor_controller = ImageEditorController()
         self.data_controller = DataController()
         self.ocr_controller = OCRController()
         self.settings_controller = SettingsController()
 
         self.image_info = ImageInfo(self.main_frame.frame, self.ocr_controller)
-        self.image_editor = ImageEditor(self.main_frame.frame, self.image_info)
+        self.image_editor = ImageEditor(self.main_frame.frame, self.image_info, self.image_editor_controller)
         self.image_folder = ImageFolder(
             self.main_frame.frame,
             self.image_editor,

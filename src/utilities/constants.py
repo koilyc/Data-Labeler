@@ -1,2 +1,6 @@
+# 圖畫編輯器模式
 SELECTION_RECTANGLE_MODE = "rect"
 SELECTION_FREEFORM_MODE = "free"
+
+# 主介面畫布邊長
+CANVAS_BORDER_LENGTH = 600

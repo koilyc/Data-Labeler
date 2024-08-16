@@ -1,30 +1,26 @@
 import tkinter as tk
+import utilities.constants as Constants
 
 from PIL import Image, ImageTk
+from controller.view_controller.image_editor_controller import ImageEditorController
 from view.main_frame.image_editor.box_drawer import BoxDrawer
 from view.main_frame.image_info import ImageInfo
 
-CANVAS_BORDER_LENGTH = 600
-
 
 class ImageEditor:
-    def __init__(self, parent: tk.Frame, image_info: ImageInfo) -> None:
+    def __init__(self, parent: tk.Frame, image_info: ImageInfo, image_editor_controller: ImageEditorController) -> None:
         self.parent_frame = parent
         self.image_info = image_info
+        self.image_editor_controller = image_editor_controller
 
         self.frame = tk.Frame(self.parent_frame, relief="groove", border=1)
-
-        self._image_path = ""
-
         self.image_canvas = tk.Canvas(
-            self.frame, width=CANVAS_BORDER_LENGTH, height=CANVAS_BORDER_LENGTH
+            self.frame, width=Constants.CANVAS_BORDER_LENGTH, height=Constants.CANVAS_BORDER_LENGTH
         )
         self.image_canvas.pack(expand=True)
 
-        self._boxes = []
-        self.box_drawer = BoxDrawer(self.image_canvas)
-
-        self._selection_mode = ""
+        self._image_path = ""
+        self.box_drawer = BoxDrawer(self.image_canvas)     
 
     @property
     def current_image_path(self) -> str:
@@ -34,58 +30,24 @@ class ImageEditor:
     def current_image_path(self, new_image_path) -> None:
         self._image_path = new_image_path
         self.image_info.current_image_path = new_image_path
-        self.current_boxes = []
+        self.display_image()
 
-    @property
-    def current_boxes(self) -> list:
-        return self._boxes
-
-    @current_boxes.setter
-    def current_boxes(self, new_boxes) -> None:
-        self._boxes = new_boxes
-        self.show_image()
-
-    @property
-    def selection_mode(self) -> str:
-        return self._selection_mode
-
-    @selection_mode.setter
-    def selection_mode(self, new_mode: str) -> None:
-        self._selection_mode = new_mode
-
-    def show_image(self) -> None:
+    def display_image(self) -> None:
         self.image_canvas.delete("all")
 
         image = Image.open(self.current_image_path)
 
         (
-            new_width,
-            new_height,
-            width_ratio,
-            height_ratio,
-        ) = self.calculate_image_dimension(image)
+            self.new_width,
+            self.new_height,
+            self.width_ratio,
+            self.height_ratio,
+        ) = self.get_image_dimension(image)
 
-        self.draw_image(image, new_width, new_height)
-        self.box_drawer.draw(self.current_boxes, width_ratio, height_ratio)
-
-    def calculate_image_dimension(self, image: Image.Image) -> tuple:
-        canvas_width = CANVAS_BORDER_LENGTH
-        canvas_height = CANVAS_BORDER_LENGTH
-        image_ratio = image.width / image.height
-        canvas_ratio = canvas_width / canvas_height
-
-        if image_ratio > canvas_ratio:
-            new_width = canvas_width
-            new_height = int(canvas_width / image_ratio)
-            width_ratio = new_width / image.width
-            height_ratio = width_ratio
-        else:
-            new_height = canvas_height
-            new_width = int(canvas_height * image_ratio)
-            height_ratio = new_height / image.height
-            width_ratio = height_ratio
-
-        return new_width, new_height, width_ratio, height_ratio
+        self.draw_image(image, self.new_width, self.new_height)
+    
+    def get_image_dimension(self, image: Image.Image):
+        return self.image_editor_controller.calculate_image_dimension(image)
 
     def draw_image(self, image, new_width, new_height) -> None:
         self.image_canvas.config(width=new_width, height=new_height)
@@ -104,11 +66,6 @@ class ImageEditor:
 
     def ocr_current_image(self) -> None:
         self.image_info.ocr_current_image()
-        self.current_boxes = self.image_info.current_boxes
-
-    # TODO:
-    def select_rectangle_area(self):
-        pass
-
-    def select_freeform_area(self):
-        pass
+        self.image_editor_controller.current_boxes = self.image_info.current_boxes
+        if self.current_image_path:
+            self.box_drawer.draw(self.image_editor_controller.current_boxes, self.width_ratio, self.height_ratio)
