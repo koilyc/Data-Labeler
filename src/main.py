@@ -1,8 +1,8 @@
-from controller.view_controller import ViewController
+from controller.controller import Controller
 
 
 def main():
-    client = ViewController()
+    client = Controller()
     client.update()
 
 

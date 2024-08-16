@@ -2,7 +2,7 @@ import tkinter as tk
 import utilities.constants as Constants
 
 from tkinter import filedialog
-from controller.main_frame_controller import MainFrameController
+from controller.view_controller.main_frame_controller import MainFrameController
 
 TOOLBAR_BUTTON_WIDTH = 5
 TOOLBAR_BUTTON_PADDING_X = 2
