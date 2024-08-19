@@ -1,12 +1,12 @@
 import tkinter as tk
 
 
-class MainFrame:
-    def __init__(self, parent: tk.Tk) -> None:
-        self.parent_frame = parent
+class MainUIView:
+    def __init__(self, parent_Tk: tk.Tk) -> None:
+        self.parent_Tk = parent_Tk
 
         self.frame = tk.Frame(
-            self.parent_frame,
+            self.parent_Tk,
         )
 
         self.configure_grid()

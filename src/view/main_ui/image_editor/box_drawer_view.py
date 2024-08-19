@@ -11,7 +11,7 @@ class BoxDrawer:
     def scale_points(self, points, width_ratio, height_ratio) -> list:
         return [(x * width_ratio, y * height_ratio) for x, y in points]
 
-    def draw(self, boxes, width_ratio=1, height_ratio=1) -> None:
+    def draw(self, boxes, width_ratio=1.0, height_ratio=1.0) -> None:
         for points in boxes:
             scaled_points = self.scale_points(points, width_ratio, height_ratio)
             self.draw_polygon(

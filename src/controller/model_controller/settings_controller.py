@@ -1,4 +1,4 @@
-from model.setting_manager import SettingManager
+from model.settings_manager import SettingManager
 
 
 class SettingsController:
