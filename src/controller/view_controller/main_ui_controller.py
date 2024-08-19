@@ -18,26 +18,86 @@ class MainUIController:
     def __init__(
         self,
         parent_Tk: tk.Tk,
+        data_controller: DataController,
+        ocr_controller: OCRController,
+        settings_controller: SettingsController,
     ) -> None:
+        self.data_controller = data_controller
+        self.ocr_controller = ocr_controller
+        self.settings_controller = settings_controller
+
         self.view = MainUIView(parent_Tk)
-
-        self.data_controller = DataController()
-        self.ocr_controller = OCRController()
-        self.settings_controller = SettingsController()
-
-        self.image_info_controller = ImageInfoController(
-            self.view.frame, self.ocr_controller
-        )
-        self.image_editor_controller = ImageEditorController(
-            self.view.frame, self.image_info_controller
-        )
-        self.image_folder_controller = ImageFolderController(
-            self.view.frame,
-            self.data_controller,
-            self.settings_controller,
-            self.image_editor_controller,
-        )
+        self.image_info_controller = ImageInfoController(self.view.frame)
+        self.image_editor_controller = ImageEditorController(self.view.frame)
+        self.image_folder_controller = ImageFolderController(self.view.frame)
 
         self.image_folder_controller.view.frame.grid(row=0, column=0, sticky="nsew")
         self.image_editor_controller.view.frame.grid(row=0, column=1, sticky="nsew")
         self.image_info_controller.view.frame.grid(row=0, column=2, sticky="nsew")
+
+        self._current_folder_path = ""
+        self._current_image_path = ""
+        self.image_folder_controller.view.listbox.bind(
+            "<<ListboxSelect>>", self.on_image_select
+        )
+
+        self.load_settings()
+
+    @property
+    def current_folder_path(self):
+        return self._current_folder_path
+
+    @current_folder_path.setter
+    def current_folder_path(self, new_folder_path):
+        self._current_folder_path = new_folder_path
+        self.image_folder_controller.folder_path = new_folder_path
+        self.image_folder_controller.image_list = self.load_jpg_files_in_folder(
+            new_folder_path
+        )
+        self.settings_controller.update_image_folder_path(new_folder_path)
+
+    @property
+    def current_image_path(self):
+        return self._current_image_path
+
+    @current_image_path.setter
+    def current_image_path(self, new_image_path):
+        self._current_image_path = new_image_path
+        self.image_editor_controller.current_image_path = new_image_path
+        self.image_info_controller.current_image_path = new_image_path
+
+    # 這東西也許可以搬到別的module裡面去，但目前暫時先放這
+    def on_image_select(self, event) -> None:
+        if (
+            self.image_folder_controller.view.listbox.size() > 0
+            and self.image_folder_controller.view.listbox.curselection()
+        ):
+            self.current_image_index = (
+                self.image_folder_controller.view.listbox.curselection()[0]
+            )
+            select_image = self.image_folder_controller.image_list[
+                self.current_image_index
+            ]
+            self.current_image_path = select_image
+
+    def ocr_current_image(self):
+        ocr_result = self.ocr_controller.run_model(self.current_image_path)
+        if ocr_result:
+            self.image_editor_controller.current_boxes = ocr_result["boxes"]
+            self.image_editor_controller.draw_boxes()
+            self.image_info_controller.current_boxes = ocr_result["boxes"]
+            self.image_info_controller.current_texts = ocr_result["texts"]
+            self.image_info_controller.current_scores = ocr_result["scores"]
+
+    def load_jpg_files_in_folder(self, folder_path):
+        return self.data_controller.load_jpg_files_in_folder(folder_path)
+
+    def load_settings(self):
+        self.load_image_folder_in_settings()
+
+    def load_image_folder_in_settings(self):
+        folder_path = str(self.settings_controller.image_folder_path)
+        self.image_folder_controller.folder_path = folder_path
+        self.image_folder_controller.image_list = (
+            self.data_controller.load_jpg_files_in_folder(folder_path)
+        )

@@ -3,17 +3,13 @@ import utilities.constants as Constants
 
 from PIL import Image
 
-from controller.view_controller.image_info_controller import ImageInfoController
 from view.main_ui.image_editor.box_drawer_view import BoxDrawer
 from view.main_ui.image_editor_view import ImageEditorView
 
 
 class ImageEditorController:
-    def __init__(
-        self, parent_frame: tk.Frame, image_info_controller: ImageInfoController
-    ) -> None:
+    def __init__(self, parent_frame: tk.Frame) -> None:
         self.parent_frame = parent_frame
-        self.image_info_controller = image_info_controller
         self.view = ImageEditorView(self.parent_frame)
         self.box_drawer = BoxDrawer(self.view.image_canvas)
 
@@ -35,7 +31,6 @@ class ImageEditorController:
     @current_image_path.setter
     def current_image_path(self, new_image_path):
         self._current_image_path = new_image_path
-        self.image_info_controller.current_image_path = new_image_path
         new_image = self.get_image_from_path(new_image_path)
         self.calculate_image_dimension(new_image)
         self.view.display_image(new_image, self.new_width, self.new_height)
@@ -61,12 +56,9 @@ class ImageEditorController:
             self.height_ratio = self.new_height / image.height
             self.width_ratio = self.height_ratio
 
-    def ocr_current_image(self) -> None:
-        self.image_info_controller.ocr_current_image()
-        self.current_boxes = self.image_info_controller.current_boxes
-        if self.current_image_path:
-            self.box_drawer.draw(
-                self.current_boxes,
-                self.width_ratio,
-                self.height_ratio,
-            )
+    def draw_boxes(self):
+        self.box_drawer.draw(
+            self.current_boxes,
+            self.width_ratio,
+            self.height_ratio,
+        )
