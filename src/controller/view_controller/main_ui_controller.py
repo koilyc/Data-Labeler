@@ -102,8 +102,11 @@ class MainUIController:
 
     def load_settings(self):
         self.load_image_folder_in_settings()
+        self.load_model_in_settings()
+        print("All settings loading done!")
 
     def load_image_folder_in_settings(self):
+        print("Loading image folder...")
         folder_path = str(self.settings_controller.image_folder_path)
         if folder_path:
             self.image_folder_controller.folder_path = folder_path
@@ -112,6 +115,21 @@ class MainUIController:
             )
         else:
             self.settings_controller.update_image_folder_path("")
+        print("Done!")
+
+    def load_model_in_settings(self):
+        print("Loading model path...")
+        det_model_path = str(self.settings_controller.det_model_path)
+        rec_model_path = str(self.settings_controller.rec_model_path)
+        if det_model_path and rec_model_path:
+            self.ocr_controller.current_model_dir = {
+                "det": det_model_path,
+                "rec": rec_model_path,
+            }
+        else:
+            self.settings_controller.update_det_model_path("")
+            self.settings_controller.update_rec_model_path("")
+        print("Done!")
 
     def bind_shortcuts(self) -> None:
         # 快捷鍵需綁定在主窗口 (tk.Tk) 上，因為快捷鍵僅在當前焦點窗口中有效

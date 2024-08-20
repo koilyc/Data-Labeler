@@ -4,6 +4,7 @@ from tkinter import filedialog
 
 from controller.view_controller.main_ui_controller import MainUIController
 from view.top_toolbar.top_toolbar_view import TopToolbarView
+from view.top_toolbar.model_setting_toplevel import ModelSettingToplevel
 
 
 class TopToolbarController:
@@ -11,8 +12,9 @@ class TopToolbarController:
         self.parent_Tk = parent_Tk
         self.main_ui_controller = main_ui_controller
         self.view = TopToolbarView(parent_Tk)
+        self.model_setting_toplevel = ModelSettingToplevel(parent_Tk)
 
-        self.setup_command()
+        self.setup_menu_command()
         self.bind_shortcuts()
 
     def open_folder(self) -> None:
@@ -20,11 +22,12 @@ class TopToolbarController:
         if folder_path:
             self.main_ui_controller.current_folder_path = folder_path
 
-    def setup_command(self) -> None:
+    def setup_menu_command(self) -> None:
         self.view.file_menu.add_command(label="開啟資料夾", command=self.open_folder)
         self.view.file_menu.add_command(label="儲存標記點")
 
-        self.view.edit_menu.add_command(label="OCR檢測", command=self.ocr_current_image)
+        self.view.model_menu.add_command(label="OCR檢測", command=self.ocr_current_image)
+        self.view.model_menu.add_command(label="模型設定", command=self.setting_model)
 
     def ocr_current_image(self) -> None:
         self.main_ui_controller.ocr_current_image()
@@ -35,3 +38,6 @@ class TopToolbarController:
 
     def handle_ocr_shortcut(self, event) -> None:
         self.ocr_current_image()
+
+    def setting_model(self) -> None:
+        self.model_setting_toplevel.show_toplevel()

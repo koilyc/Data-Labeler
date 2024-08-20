@@ -22,6 +22,10 @@ class SettingManager:
             value = value.get(k, default)
         return value
 
+    def update_settings_path(self, id: str, new_path: str) -> None:
+        self.settings[id] = new_path
+        self.save_settings()
+
     def get_image_folder_path(self) -> str:
         folder_path = self.get("image-folder-path")
         if os.path.isdir(folder_path):
@@ -29,6 +33,16 @@ class SettingManager:
         else:
             return ""
 
-    def update_image_folder_path(self, new_folder_path):
-        self.settings["image-folder-path"] = new_folder_path
-        self.save_settings()
+    def get_det_model_path(self) -> str:
+        model_path = self.get("det-model-path")
+        if os.path.isdir(model_path):
+            return model_path
+        else:
+            return ""
+
+    def get_rec_model_path(self) -> str:
+        model_path = self.get("rec-model-path")
+        if os.path.isdir(model_path):
+            return model_path
+        else:
+            return ""

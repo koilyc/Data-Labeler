@@ -16,19 +16,19 @@ class TopToolbarView:
     def setup_toolbar_button(self) -> None:
         self.file_button = tk.Button(
             self.frame,
-            text="File",
+            text="檔案",
             width=TOOLBAR_BUTTON_WIDTH,
             command=lambda: self.display_menu(self.file_button, self.file_menu),
         )
         self.file_button.pack(side=tk.LEFT, padx=TOOLBAR_BUTTON_PADDING_X)
 
-        self.edit_button = tk.Button(
+        self.model_button = tk.Button(
             self.frame,
-            text="Edit",
+            text="模型",
             width=TOOLBAR_BUTTON_WIDTH,
-            command=lambda: self.display_menu(self.edit_button, self.edit_menu),
+            command=lambda: self.display_menu(self.model_button, self.model_menu),
         )
-        self.edit_button.pack(side=tk.LEFT, padx=TOOLBAR_BUTTON_PADDING_X)
+        self.model_button.pack(side=tk.LEFT, padx=TOOLBAR_BUTTON_PADDING_X)
 
     def display_menu(self, target_button: tk.Button, target_menu: tk.Menu) -> None:
         button_x = target_button.winfo_rootx()
@@ -37,10 +37,10 @@ class TopToolbarView:
 
     def setup_menu(self) -> None:
         self.setup_file_menu()
-        self.setup_edit_menu()
+        self.setup_model_menu()
 
     def setup_file_menu(self) -> None:
         self.file_menu = tk.Menu(self.frame, tearoff=0)
 
-    def setup_edit_menu(self) -> None:
-        self.edit_menu = tk.Menu(self.frame, tearoff=0)
+    def setup_model_menu(self) -> None:
+        self.model_menu = tk.Menu(self.frame, tearoff=0)

@@ -1,3 +1,5 @@
 {
-    "image-folder-path": "C:/Users/koi_lin/Desktop/Notes/Codes/Python/OCR/Images/Dataset/A30"
+    "image-folder-path": "C:/Users/koi_lin/Desktop/Notes/Codes/Python/OCR/Images/sample_image",
+    "det-model-path": "",
+    "rec-model-path": ""
 }
