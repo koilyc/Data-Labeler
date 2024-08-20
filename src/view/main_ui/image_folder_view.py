@@ -5,6 +5,7 @@ class ImageFolderView:
     def __init__(self, parent_frame: tk.Frame) -> None:
         self.parent_frame = parent_frame
         self.folder_path_stringvar = tk.StringVar()
+        self.index_stringvar = tk.StringVar()
 
         self.setup_ui()
 
@@ -16,11 +17,19 @@ class ImageFolderView:
         self.folder_path_label.pack(fill=tk.X)
         self.listbox = tk.Listbox(self.frame)
         self.listbox.pack(fill=tk.BOTH, expand=True)
+        self.index_label = tk.Label(
+            self.frame, textvariable=self.index_stringvar, anchor="e"
+        )
+        self.index_label.pack(fill=tk.X)
 
     def update_folder_name(self, folder_basename: str):
         self.folder_path_stringvar.set(folder_basename + "/")
+    
+    def update_image_index(self, index: int, total: int):
+        self.index_stringvar.set("{}/{}".format(index+1, total))
 
     def update_listbox(self, jpg_file_names: list) -> None:
         self.listbox.delete(0, tk.END)
         self.listbox.insert(tk.END, *jpg_file_names)
         self.current_image_index = 0
+    

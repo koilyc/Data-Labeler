@@ -32,6 +32,7 @@ class ImageFolderController:
     @image_list.setter
     def image_list(self, new_image_list):
         self._image_list = new_image_list
+        self.total_image_count = len(new_image_list)
         self.update_listbox()
 
     def update_listbox(self):
@@ -41,3 +42,6 @@ class ImageFolderController:
     def update_folder_name(self):
         folder_basename = os.path.basename(os.path.normpath(self.folder_path))
         self.view.update_folder_name(folder_basename)
+    
+    def update_image_index(self, current_image_index):
+        self.view.update_image_index(current_image_index, self.total_image_count)
