@@ -14,7 +14,7 @@ class ImageFolderController:
 
         self._folder_path = ""
         self._image_list = []
-        self.current_image_index = 0
+        self.total_image_count = 0
 
     @property
     def folder_path(self):
@@ -42,6 +42,6 @@ class ImageFolderController:
     def update_folder_name(self):
         folder_basename = os.path.basename(os.path.normpath(self.folder_path))
         self.view.update_folder_name(folder_basename)
-    
+
     def update_image_index(self, current_image_index):
         self.view.update_image_index(current_image_index, self.total_image_count)

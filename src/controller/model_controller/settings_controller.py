@@ -7,7 +7,7 @@ class SettingsController:
 
     @property
     def image_folder_path(self):
-        return self.get_settings("image-folder-path")
+        return self.model.get_image_folder_path()
 
     def get_settings(self, key: str):
         return self.model.get(key)

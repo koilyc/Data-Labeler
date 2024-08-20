@@ -1,4 +1,5 @@
 import json
+import os
 
 
 class SettingManager:
@@ -20,6 +21,13 @@ class SettingManager:
         for k in keys:
             value = value.get(k, default)
         return value
+
+    def get_image_folder_path(self) -> str:
+        folder_path = self.get("image-folder-path")
+        if os.path.isdir(folder_path):
+            return folder_path
+        else:
+            return ""
 
     def update_image_folder_path(self, new_folder_path):
         self.settings["image-folder-path"] = new_folder_path

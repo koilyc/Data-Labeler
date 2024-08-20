@@ -33,7 +33,7 @@ class ImageEditorController:
         self._current_image_path = new_image_path
         self.current_image = self.get_image_from_path(new_image_path)
         self.display_new_image()
-        
+
     def display_new_image(self):
         self.calculate_image_dimension(self.current_image)
         self.view.display_image(self.current_image, self.new_width, self.new_height)
@@ -70,6 +70,6 @@ class ImageEditorController:
         self.current_image = self.current_image.rotate(degrees, expand=True)
         self.display_new_image()
         self.save_image(self.current_image)
-        
+
     def save_image(self, image: Image.Image):
         image.save(self.current_image_path)

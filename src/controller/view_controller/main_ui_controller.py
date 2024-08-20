@@ -84,7 +84,7 @@ class MainUIController:
             ]
             self.current_image_path = select_image
             self.update_image_index()
-    
+
     def update_image_index(self):
         self.image_folder_controller.update_image_index(self.current_image_index)
 
@@ -105,10 +105,13 @@ class MainUIController:
 
     def load_image_folder_in_settings(self):
         folder_path = str(self.settings_controller.image_folder_path)
-        self.image_folder_controller.folder_path = folder_path
-        self.image_folder_controller.image_list = (
-            self.data_controller.load_jpg_files_in_folder(folder_path)
-        )
+        if folder_path:
+            self.image_folder_controller.folder_path = folder_path
+            self.image_folder_controller.image_list = (
+                self.data_controller.load_jpg_files_in_folder(folder_path)
+            )
+        else:
+            self.settings_controller.update_image_folder_path("")
 
     def bind_shortcuts(self) -> None:
         # 快捷鍵需綁定在主窗口 (tk.Tk) 上，因為快捷鍵僅在當前焦點窗口中有效
@@ -117,6 +120,6 @@ class MainUIController:
 
     def handle_rotate_left_shortcut(self, event) -> None:
         self.image_editor_controller.rotate_image(90)
-    
+
     def handle_rotate_right_shortcut(self, event) -> None:
         self.image_editor_controller.rotate_image(270)

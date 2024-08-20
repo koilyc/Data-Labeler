@@ -24,12 +24,11 @@ class ImageFolderView:
 
     def update_folder_name(self, folder_basename: str):
         self.folder_path_stringvar.set(folder_basename + "/")
-    
+
     def update_image_index(self, index: int, total: int):
-        self.index_stringvar.set("{}/{}".format(index+1, total))
+        self.index_stringvar.set("{}/{}".format(index + 1, total))
 
     def update_listbox(self, jpg_file_names: list) -> None:
         self.listbox.delete(0, tk.END)
         self.listbox.insert(tk.END, *jpg_file_names)
         self.current_image_index = 0
-    
