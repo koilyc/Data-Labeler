@@ -3,8 +3,8 @@ import tkinter as tk
 from tkinter import filedialog
 
 from controller.view_controller.main_ui_controller import MainUIController
-from view.top_toolbar.top_toolbar_view import TopToolbarView
 from view.top_toolbar.model_setting_toplevel import ModelSettingToplevel
+from view.top_toolbar.top_toolbar_view import TopToolbarView
 
 
 class TopToolbarController:
@@ -12,7 +12,7 @@ class TopToolbarController:
         self.parent_Tk = parent_Tk
         self.main_ui_controller = main_ui_controller
         self.view = TopToolbarView(parent_Tk)
-        self.model_setting_toplevel = ModelSettingToplevel(parent_Tk)
+        self.model_setting_toplevel = ModelSettingToplevel(parent_Tk, self.main_ui_controller)
 
         self.setup_menu_command()
         self.bind_shortcuts()

@@ -1,5 +1,5 @@
 {
-    "image-folder-path": "C:/Users/koi_lin/Desktop/Notes/Codes/Python/OCR/Images/sample_image",
-    "det-model-path": "",
-    "rec-model-path": ""
+    "image-folder-path": "C:/Users/koi_lin/Documents/Project/testing_image",
+    "det-model-path": "C:/Users/koi_lin/Desktop/Notes/Codes/Python/OCR/Models/ch_PP-OCRv4_det_server_infer",
+    "rec-model-path": "C:/Users/koi_lin/Desktop/Notes/Codes/Python/OCR/Models/en_PP-OCRv4_rec_infer"
 }

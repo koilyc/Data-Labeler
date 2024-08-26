@@ -11,7 +11,7 @@ class ImageEditorView:
     ) -> None:
         self.parent_frame = parent_frame
 
-        self.frame = tk.Frame(self.parent_frame, relief="groove", border=1)
+        self.frame = tk.Frame(self.parent_frame, relief="groove", border=1, padx=5, pady=5)
         self.image_canvas = tk.Canvas(
             self.frame,
             width=Constants.CANVAS_BORDER_LENGTH,

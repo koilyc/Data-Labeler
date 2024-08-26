@@ -69,7 +69,7 @@ class ImageEditorController:
     def rotate_image(self, degrees):
         self.current_image = self.current_image.rotate(degrees, expand=True)
         self.display_new_image()
-        self.save_image(self.current_image)
+        self.save_image()
 
-    def save_image(self, image: Image.Image):
-        image.save(self.current_image_path)
+    def save_image(self):
+        self.current_image.save(self.current_image_path)
