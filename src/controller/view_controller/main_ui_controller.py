@@ -1,5 +1,7 @@
+import threading
 import tkinter as tk
 
+from tkinter import ttk
 from controller.model_controller.data_controller import DataController
 from controller.model_controller.ocr_controller import OCRController
 from controller.model_controller.settings_controller import SettingsController
@@ -43,6 +45,8 @@ class MainUIController:
             "<<ListboxSelect>>", self.on_image_select
         )
 
+        self.all_ocr_results = []
+
         self.load_settings()
         self.bind_shortcuts()
         self.update_image_index()
@@ -58,6 +62,10 @@ class MainUIController:
         self.image_folder_controller.image_list = self.load_jpg_files_in_folder(
             new_folder_path
         )
+        self.all_ocr_results = [
+            {"boxes": None, "texts": None, "scores": None}
+            for _ in range(len(self.image_folder_controller.image_list))
+        ]
         self.settings_controller.update_image_folder_path(new_folder_path)
 
     @property
@@ -84,6 +92,7 @@ class MainUIController:
             ]
             self.current_image_path = select_image
             self.update_image_index()
+            self.show_image_info()
 
     def update_image_index(self):
         self.image_folder_controller.update_image_index(self.current_image_index)
@@ -91,11 +100,76 @@ class MainUIController:
     def ocr_current_image(self):
         ocr_result = self.ocr_controller.run_model(self.current_image_path)
         if ocr_result:
-            self.image_editor_controller.current_boxes = ocr_result["boxes"]
+            self.all_ocr_results[self.current_image_index] = ocr_result
+            self.show_image_info()
+
+    def ocr_all_images(self):
+        for index, image in enumerate(self.image_folder_controller.image_list):
+            result = self.ocr_controller.run_model(image)
+            if result:
+                self.all_ocr_results[index] = result
+
+            percentage = int(((index + 1) / len(self.all_ocr_results)) * 100)
+
+            self.ocr_progress_bar["value"] = index + 1
+            self.image_name_stringvar.set(f"Progress: {percentage}%")
+            self.ocr_progress_toplevel.update_idletasks()
+
+        print("All image OCR done.")
+        self.show_image_info()
+
+        self.ocr_progress_toplevel.destroy()
+
+    def show_ocr_progress(self):
+        screen_width = self.parent_Tk.winfo_screenwidth()
+        screen_height = self.parent_Tk.winfo_screenheight()
+
+        window_width = 300
+        window_height = 50
+
+        position_right = int(screen_width / 2 - window_width / 2)
+        position_down = int(screen_height / 2 - window_height / 2)
+
+        self.ocr_progress_toplevel = tk.Toplevel(self.parent_Tk)
+        self.ocr_progress_toplevel.title("OCR Progress")
+        self.ocr_progress_toplevel.geometry(
+            f"{window_width}x{window_height}+{position_right}+{position_down}"
+        )
+        self.ocr_progress_toplevel.resizable(False, False)
+        self.ocr_progress_toplevel.focus_set()
+
+        self.ocr_progress_bar = ttk.Progressbar(
+            self.ocr_progress_toplevel,
+            orient="horizontal",
+            length=window_width,
+            mode="determinate",
+        )
+        self.ocr_progress_bar.pack(padx=2)
+        self.ocr_progress_bar["maximum"] = len(self.all_ocr_results)
+
+        self.image_name_stringvar = tk.StringVar()
+        self.ocr_progress_name = tk.Label(
+            self.ocr_progress_toplevel, textvariable=self.image_name_stringvar
+        )
+        self.ocr_progress_name.pack(padx=2)
+
+        threading.Thread(target=self.ocr_all_images).start()
+
+    def show_image_info(self):
+        if self.all_ocr_results[self.current_image_index]["boxes"]:
+            self.image_editor_controller.current_boxes = self.all_ocr_results[
+                self.current_image_index
+            ]["boxes"]
             self.image_editor_controller.draw_boxes()
-            self.image_info_controller.current_boxes = ocr_result["boxes"]
-            self.image_info_controller.current_texts = ocr_result["texts"]
-            self.image_info_controller.current_scores = ocr_result["scores"]
+            self.image_info_controller.current_boxes = self.all_ocr_results[
+                self.current_image_index
+            ]["boxes"]
+            self.image_info_controller.current_texts = self.all_ocr_results[
+                self.current_image_index
+            ]["texts"]
+            self.image_info_controller.current_scores = self.all_ocr_results[
+                self.current_image_index
+            ]["scores"]
 
     def load_jpg_files_in_folder(self, folder_path):
         return self.data_controller.load_jpg_files_in_folder(folder_path)
@@ -113,6 +187,10 @@ class MainUIController:
             self.image_folder_controller.image_list = (
                 self.data_controller.load_jpg_files_in_folder(folder_path)
             )
+            self.all_ocr_results = [
+                {"boxes": None, "texts": None, "scores": None}
+                for _ in range(len(self.image_folder_controller.image_list))
+            ]
         else:
             self.settings_controller.update_image_folder_path("")
         print("Done!")

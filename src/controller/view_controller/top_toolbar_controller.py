@@ -12,7 +12,9 @@ class TopToolbarController:
         self.parent_Tk = parent_Tk
         self.main_ui_controller = main_ui_controller
         self.view = TopToolbarView(parent_Tk)
-        self.model_setting_toplevel = ModelSettingToplevel(parent_Tk, self.main_ui_controller)
+        self.model_setting_toplevel = ModelSettingToplevel(
+            parent_Tk, self.main_ui_controller
+        )
 
         self.setup_menu_command()
         self.bind_shortcuts()
@@ -23,14 +25,22 @@ class TopToolbarController:
             self.main_ui_controller.current_folder_path = folder_path
 
     def setup_menu_command(self) -> None:
-        self.view.file_menu.add_command(label="開啟資料夾", command=self.open_folder)
-        self.view.file_menu.add_command(label="儲存標記點")
+        self.view.file_menu.add_command(label="Open Folder", command=self.open_folder)
+        # self.view.file_menu.add_command(label="儲存標記點")
 
-        self.view.model_menu.add_command(label="OCR檢測", command=self.ocr_current_image)
-        self.view.model_menu.add_command(label="模型設定", command=self.setting_model)
+        self.view.model_menu.add_command(
+            label="OCR Current (Ctrl + O)", command=self.ocr_current_image
+        )
+        self.view.model_menu.add_command(label="OCR All", command=self.ocr_all_images)
+        self.view.model_menu.add_command(
+            label="Model Setting", command=self.setting_model
+        )
 
     def ocr_current_image(self) -> None:
         self.main_ui_controller.ocr_current_image()
+
+    def ocr_all_images(self) -> None:
+        self.main_ui_controller.show_ocr_progress()
 
     def bind_shortcuts(self) -> None:
         # 快捷鍵需綁定在主窗口 (tk.Tk) 上，因為快捷鍵僅在當前焦點窗口中有效

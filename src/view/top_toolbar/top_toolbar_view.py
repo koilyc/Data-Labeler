@@ -16,7 +16,7 @@ class TopToolbarView:
     def setup_toolbar_button(self) -> None:
         self.file_button = tk.Button(
             self.frame,
-            text="檔案",
+            text="File",
             width=TOOLBAR_BUTTON_WIDTH,
             command=lambda: self.display_menu(self.file_button, self.file_menu),
         )
@@ -24,7 +24,7 @@ class TopToolbarView:
 
         self.model_button = tk.Button(
             self.frame,
-            text="模型",
+            text="Model",
             width=TOOLBAR_BUTTON_WIDTH,
             command=lambda: self.display_menu(self.model_button, self.model_menu),
         )

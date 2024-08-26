@@ -56,8 +56,10 @@ class ModelSettingToplevel:
         self.rec_model_button.pack(anchor="e")
 
         self.button_frame = tk.Frame(self.top_level)
-        self.button_frame.pack(padx=5, pady=5, anchor='e')
-        confirm_button = tk.Button(self.button_frame, text="Confirm", command=self.confirm)
+        self.button_frame.pack(padx=5, pady=5, anchor="e")
+        confirm_button = tk.Button(
+            self.button_frame, text="Confirm", command=self.confirm
+        )
         confirm_button.grid(padx=2, column=0, row=0)
         cancel_button = tk.Button(self.button_frame, text="Cancel", command=self.cancel)
         cancel_button.grid(padx=2, column=1, row=0)
@@ -79,10 +81,16 @@ class ModelSettingToplevel:
             self.current_rec_model = folder_path
 
     def confirm(self):
-        selected_model = {'det': self.current_det_model, 'rec': self.current_rec_model}
-        self.main_ui_controller.ocr_controller.change_model(self.current_lang, selected_model)
-        self.main_ui_controller.settings_controller.update_det_model_path(self.current_det_model)
-        self.main_ui_controller.settings_controller.update_rec_model_path(self.current_rec_model)
+        selected_model = {"det": self.current_det_model, "rec": self.current_rec_model}
+        self.main_ui_controller.ocr_controller.change_model(
+            self.current_lang, selected_model
+        )
+        self.main_ui_controller.settings_controller.update_det_model_path(
+            self.current_det_model
+        )
+        self.main_ui_controller.settings_controller.update_rec_model_path(
+            self.current_rec_model
+        )
         self.top_level.destroy()
 
     def cancel(self):
