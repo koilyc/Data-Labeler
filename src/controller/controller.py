@@ -32,5 +32,12 @@ class Controller:
         self.top_toolbar_controller.view.frame.pack(side=tk.TOP, fill=tk.X)
         self.main_ui_controller.view.frame.pack(fill=tk.BOTH, expand=True)
 
+        self.bind_shortcuts()
+
     def update(self):
         self.view.update()
+
+    # 綁定快捷鍵
+    def bind_shortcuts(self) -> None:
+        # 快捷鍵需綁定在主窗口 (tk.Tk) 上，因為快捷鍵僅在當前焦點窗口中有效
+        self.view.main_window.bind("<Control-o>", self.top_toolbar_controller.ocr_current_image_shortcut)
