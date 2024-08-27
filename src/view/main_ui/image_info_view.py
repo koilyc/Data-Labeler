@@ -14,6 +14,10 @@ class ImageInfoView:
         self.boxes_name_label.pack(fill=tk.X)
         self.boxes_listbox = tk.Listbox(self.frame)
         self.boxes_listbox.pack(fill=tk.BOTH, expand=True)
+        self.result_eval_label = tk.Label(self.frame, anchor="w", text="Result")
+        self.result_eval_label.pack(fill=tk.X)
+        self.result_eval_Frame = tk.Frame(self.frame)
+        self.result_eval_Frame.pack(fill=tk.BOTH)
 
     def update_texts_listbox(self, texts: list) -> None:
         self.texts_listbox.delete(0, tk.END)
