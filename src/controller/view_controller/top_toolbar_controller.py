@@ -33,7 +33,7 @@ class TopToolbarController:
         )
         self.view.model_menu.add_command(label="OCR All", command=self.ocr_all_images)
         self.view.model_menu.add_command(
-            label="Model Setting", command=self.setting_model
+            label="Model Setting", command=self.show_setting_model
         )
 
     def ocr_current_image(self) -> None:
@@ -49,5 +49,5 @@ class TopToolbarController:
     def handle_ocr_shortcut(self, event) -> None:
         self.ocr_current_image()
 
-    def setting_model(self) -> None:
+    def show_setting_model(self) -> None:
         self.model_setting_toplevel.show_toplevel()
