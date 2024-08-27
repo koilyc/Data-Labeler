@@ -20,7 +20,7 @@ class TopToolbarView:
             width=TOOLBAR_BUTTON_WIDTH,
             command=lambda: self.display_menu(self.file_button, self.file_menu),
         )
-        self.file_button.pack(side=tk.LEFT, padx=TOOLBAR_BUTTON_PADDING_X)
+        self.file_button.pack(side=tk.LEFT)
 
         self.model_button = tk.Button(
             self.frame,
@@ -28,7 +28,7 @@ class TopToolbarView:
             width=TOOLBAR_BUTTON_WIDTH,
             command=lambda: self.display_menu(self.model_button, self.model_menu),
         )
-        self.model_button.pack(side=tk.LEFT, padx=TOOLBAR_BUTTON_PADDING_X)
+        self.model_button.pack(side=tk.LEFT)
 
     def display_menu(self, target_button: tk.Button, target_menu: tk.Menu) -> None:
         button_x = target_button.winfo_rootx()

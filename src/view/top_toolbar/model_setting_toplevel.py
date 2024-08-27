@@ -9,6 +9,8 @@ class ModelSettingToplevel:
         self.parent_Tk = parent_Tk
         self.main_ui_controller = main_ui_controller
         self.current_lang = ""
+        self.top_level: tk.Toplevel
+
         self.current_det_model = None
         self.current_rec_model = None
         self.lang_options = ["en", "ch", "chinese_cht"]
@@ -39,9 +41,7 @@ class ModelSettingToplevel:
         det_model_label.pack(anchor="w")
         self.det_model_text = tk.Text(det_model_frame, height=1, font=text_font)
         self.det_model_text.pack(fill=tk.X)
-        self.det_model_button = tk.Button(
-            det_model_frame, text="Browse", command=self.choose_det_model_folder_path
-        )
+        self.det_model_button = tk.Button(det_model_frame, text="Browse")
         self.det_model_button.pack(anchor="e")
 
         rec_model_frame = tk.Frame(self.top_level)
@@ -50,50 +50,12 @@ class ModelSettingToplevel:
         rec_model_label.pack(anchor="w")
         self.rec_model_text = tk.Text(rec_model_frame, height=1, font=text_font)
         self.rec_model_text.pack(fill=tk.X)
-        self.rec_model_button = tk.Button(
-            rec_model_frame, text="Browse", command=self.choose_rec_model_folder_path
-        )
+        self.rec_model_button = tk.Button(rec_model_frame, text="Browse")
         self.rec_model_button.pack(anchor="e")
 
         self.button_frame = tk.Frame(self.top_level)
         self.button_frame.pack(padx=5, pady=5, anchor="e")
-        confirm_button = tk.Button(
-            self.button_frame, text="Confirm", command=self.confirm
-        )
-        confirm_button.grid(padx=2, column=0, row=0)
-        cancel_button = tk.Button(self.button_frame, text="Cancel", command=self.cancel)
-        cancel_button.grid(padx=2, column=1, row=0)
-
-    def choose_det_model_folder_path(self):
-        folder_path = filedialog.askdirectory()
-        self.top_level.focus_set()
-        if folder_path:
-            self.det_model_text.delete("1.0", tk.END)
-            self.det_model_text.insert(tk.END, folder_path)
-            self.current_det_model = folder_path
-
-    def choose_rec_model_folder_path(self):
-        folder_path = filedialog.askdirectory()
-        self.top_level.focus_set()
-        if folder_path:
-            self.rec_model_text.delete("1.0", tk.END)
-            self.rec_model_text.insert(tk.END, folder_path)
-            self.current_rec_model = folder_path
-
-    def confirm(self):
-        selected_model = {"det": self.current_det_model, "rec": self.current_rec_model}
-        self.main_ui_controller.ocr_controller.change_model(
-            self.current_lang, selected_model
-        )
-        self.main_ui_controller.settings_controller.update_det_model_path(
-            self.current_det_model
-        )
-        self.main_ui_controller.settings_controller.update_rec_model_path(
-            self.current_rec_model
-        )
-        self.top_level.destroy()
-
-    def cancel(self):
-        self.current_det_model = None
-        self.current_rec_model = None
-        self.top_level.destroy()
+        self.confirm_button = tk.Button(self.button_frame, text="Confirm")
+        self.confirm_button.grid(padx=2, column=0, row=0)
+        self.cancel_button = tk.Button(self.button_frame, text="Cancel")
+        self.cancel_button.grid(padx=2, column=1, row=0)
