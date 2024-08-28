@@ -24,11 +24,6 @@ class ImageEditorView:
         self._image_path = ""
 
     def display_image(self, image: Image.Image, new_width, new_height) -> None:
-        self.image_canvas.delete("all")
-
-        self.draw_image(image, new_width, new_height)
-
-    def draw_image(self, image, new_width, new_height) -> None:
         self.image_canvas.config(width=new_width, height=new_height)
         resized_image = image.resize((new_width, new_height), Image.Resampling.LANCZOS)
         self.photo = ImageTk.PhotoImage(resized_image)

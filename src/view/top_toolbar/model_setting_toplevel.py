@@ -11,20 +11,23 @@ class ModelSettingToplevel:
         self.lang_options = ["en", "ch", "chinese_cht"]
         self.current_det_model = None
         self.current_rec_model = None
+    
+    def show_ui(self):
+        self.show_toplevel()
+        
+        self.setup_model_lang_frame()
+        self.setup_det_model_frame()
+        self.setup_rec_model_frame()
+        self.setup_button()
+        
+        self.pack_components()     
 
     def show_toplevel(self):
         self.top_level = tk.Toplevel(self.parent_Tk)
         self.top_level.title("Model Setting")
         self.top_level.geometry("300x400")
         self.top_level.resizable(False, False)
-        self.top_level.focus_set()
-
-        self.setup_model_lang_frame()
-        self.setup_det_model_frame()
-        self.setup_rec_model_frame()
-        self.setup_button()
-
-        self.pack_components()
+        self.top_level.focus_set()   
     
     def setup_model_lang_frame(self):
         self.model_lang_frame = tk.Frame(self.top_level)

@@ -5,7 +5,6 @@ from tkinter import ttk
 from controller.model_controller.data_controller import DataController
 from controller.model_controller.ocr_controller import OCRController
 from controller.model_controller.settings_controller import SettingsController
-
 from controller.view_controller.image_editor_controller import (
     ImageEditorController,
 )
@@ -38,7 +37,7 @@ class MainUIController:
         self.image_editor_controller.view.frame.grid(row=0, column=1, sticky="nsew")
         self.image_info_controller.view.frame.grid(row=0, column=2, sticky="nsew")
 
-        self.current_image_index = 0
+        self._current_image_index = 0
         self._current_folder_path = ""
         self._current_image_path = ""
         self.image_folder_controller.view.listbox.bind(
@@ -52,22 +51,23 @@ class MainUIController:
         self.update_image_index()
 
     @property
+    def current_image_index(self):
+        return self._current_image_index
+    
+    @current_image_index.setter
+    def current_image_index(self, new_index):
+        self._current_image_index = new_index
+        self.update_image_index()
+
+    @property
     def current_folder_path(self):
         return self._current_folder_path
 
     @current_folder_path.setter
     def current_folder_path(self, new_folder_path):
         self._current_folder_path = new_folder_path
-        self.image_folder_controller.folder_path = new_folder_path
-        self.image_folder_controller.image_list = self.load_jpg_files_in_folder(
-            new_folder_path
-        )
-        self.all_ocr_results = [
-            {"boxes": None, "texts": None, "scores": None}
-            for _ in range(len(self.image_folder_controller.image_list))
-        ]
-        self.settings_controller.update_image_folder_path(new_folder_path)
-
+        self.update_folder_path()
+        
     @property
     def current_image_path(self):
         return self._current_image_path
@@ -75,9 +75,8 @@ class MainUIController:
     @current_image_path.setter
     def current_image_path(self, new_image_path):
         self._current_image_path = new_image_path
-        self.image_editor_controller.current_image_path = new_image_path
-        self.image_info_controller.current_image_path = new_image_path
-
+        self.update_image_path()
+        
     # 這東西也許可以搬到別的module裡面去，但目前暫時先放這
     def on_image_select(self, event) -> None:
         if (
@@ -91,12 +90,28 @@ class MainUIController:
                 self.current_image_index
             ]
             self.current_image_path = select_image
-            self.update_image_index()
             self.show_image_info()
 
+    # 更新路徑和圖片資訊
     def update_image_index(self):
         self.image_folder_controller.update_image_index(self.current_image_index)
 
+    def update_folder_path(self):
+        self.image_folder_controller.folder_path = self.current_folder_path
+        self.image_folder_controller.image_list = self.load_jpg_files_in_folder(
+            self.current_folder_path
+        )
+        self.all_ocr_results = [
+            {"boxes": None, "texts": None, "scores": None}
+            for _ in range(len(self.image_folder_controller.image_list))
+        ]
+        self.settings_controller.update_image_folder_path(self.current_folder_path)
+    
+    def update_image_path(self):
+        self.image_editor_controller.current_image_path = self.current_image_path
+        self.image_info_controller.current_image_path = self.current_image_path
+
+    # OCR操作
     def ocr_current_image(self):
         ocr_result = self.ocr_controller.run_model(self.current_image_path)
         if ocr_result:
@@ -115,7 +130,6 @@ class MainUIController:
             self.image_name_stringvar.set(f"Progress: {percentage}%")
             self.ocr_progress_toplevel.update_idletasks()
 
-        print("All image OCR done.")
         self.show_image_info()
 
         self.ocr_progress_toplevel.destroy()
@@ -155,6 +169,7 @@ class MainUIController:
 
         threading.Thread(target=self.ocr_all_images).start()
 
+    # 更新圖片資訊
     def show_image_info(self):
         if self.all_ocr_results[self.current_image_index]["boxes"]:
             self.image_editor_controller.current_boxes = self.all_ocr_results[

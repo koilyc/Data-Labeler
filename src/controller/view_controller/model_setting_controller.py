@@ -13,7 +13,7 @@ class ModelSettingController:
         self.model_setting_toplevel = ModelSettingToplevel(self.parent_Tk)
 
     def show_setting_model(self) -> None:
-        self.model_setting_toplevel.show_toplevel()
+        self.model_setting_toplevel.show_ui()
         self.setup_model_setting_button()
 
     def choose_det_model_folder_path(self):

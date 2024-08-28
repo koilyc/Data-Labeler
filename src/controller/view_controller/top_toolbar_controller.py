@@ -24,9 +24,7 @@ class TopToolbarController:
             label="OCR Current (Ctrl + O)", command=self.ocr_current_image
         )
         self.view.model_menu.add_command(label="OCR All", command=self.ocr_all_images)
-        self.view.model_menu.add_command(
-            label="Model Setting", command=self.model_setting_controller.show_setting_model
-        )
+        self.view.model_menu.add_command(label="Model Setting", command=self.model_setting)
 
     # File command
     def open_folder(self) -> None:
@@ -40,6 +38,9 @@ class TopToolbarController:
 
     def ocr_all_images(self) -> None:
         self.main_ui_controller.show_ocr_progress()
+    
+    def model_setting(self) -> None:
+        self.model_setting_controller.show_setting_model()
 
     # Shortcuts
     def ocr_current_image_shortcut(self, event) -> None:
