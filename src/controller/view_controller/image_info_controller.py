@@ -59,10 +59,10 @@ class ImageInfoController:
     def update_boxes_listbox(self, boxes: list) -> None:
         self.view.boxes_listbox.delete(0, tk.END)
         self.view.boxes_listbox.insert(tk.END, *boxes)
-    
+
     def set_image_reuslt(self, result: str):
         directory, filename = os.path.split(self.current_image_path)
-        new_filename = f'{result}-' + filename
+        new_filename = f"{result}-" + filename
         new_path = os.path.join(directory, new_filename)
         os.rename(self.current_image_path, new_path)
         self.current_image_path = new_path

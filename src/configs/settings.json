@@ -1,5 +1,5 @@
 {
-    "image-folder-path": "C:/Users/koi_lin/Documents/Project/OCRTraining/exp01/det_01_rec_ori_result",
+    "image-folder-path": "C:/Users/koi_lin/Documents/Project/Datasets/NonTested/G2xGamma6f0/37",
     "det-model-path": "C:/Users/koi_lin/Documents/OCR/Models/ch_PP-OCRv4_det_server_infer",
     "rec-model-path": "C:/Users/koi_lin/Documents/OCR/Models/en_PP-OCRv4_rec_infer"
 }

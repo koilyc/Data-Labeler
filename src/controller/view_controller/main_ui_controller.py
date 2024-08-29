@@ -47,8 +47,6 @@ class MainUIController:
             "<<ListboxSelect>>", self.on_image_select
         )
 
-        self.all_ocr_results = []
-
         self.load_settings()
         self.bind_shortcuts()
         self.bind_button_function()
@@ -98,12 +96,12 @@ class MainUIController:
 
     # 更新路徑和圖片資訊
     def update_image_index(self):
-        self.image_folder_controller.update_image_index(self.current_image_index)
+        self.image_folder_controller.current_image_index = self.current_image_index
 
     def update_folder_path(self):
         self.image_folder_controller.folder_path = self.current_folder_path
-        self.image_folder_controller.image_list = self.load_jpg_files_in_folder(
-            self.current_folder_path
+        self.image_folder_controller.image_list = (
+            self.data_controller.load_jpg_files_in_folder(self.current_folder_path)
         )
         self.all_ocr_results = [
             {"boxes": None, "texts": None, "scores": None}
@@ -116,12 +114,14 @@ class MainUIController:
         self.image_info_controller.current_image_path = self.current_image_path
 
     # 更新圖片資訊
-    def show_image_info(self):
+    def show_image_info(self) -> None:
         if self.all_ocr_results[self.current_image_index]["boxes"]:
+            # 在editor中畫出外框
             self.image_editor_controller.current_boxes = self.all_ocr_results[
                 self.current_image_index
             ]["boxes"]
             self.image_editor_controller.draw_boxes()
+            # 更新info中的圖片資訊
             self.image_info_controller.current_boxes = self.all_ocr_results[
                 self.current_image_index
             ]["boxes"]
@@ -132,26 +132,19 @@ class MainUIController:
                 self.current_image_index
             ]["scores"]
 
-    def load_jpg_files_in_folder(self, folder_path):
-        return self.data_controller.load_jpg_files_in_folder(folder_path)
-
     # 載入設定檔資訊
     def load_settings(self):
         self.load_image_folder_in_settings()
         self.load_model_in_settings()
-        print("All settings loading done!")
 
     def load_image_folder_in_settings(self):
-        print("Loading image folder...")
         folder_path = str(self.settings_controller.image_folder_path)
         if folder_path:
             self.current_folder_path = folder_path
         else:
             self.settings_controller.update_image_folder_path("")
-        print("Done!")
 
     def load_model_in_settings(self):
-        print("Loading model path...")
         det_model_path = str(self.settings_controller.det_model_path)
         rec_model_path = str(self.settings_controller.rec_model_path)
         if det_model_path and rec_model_path:
@@ -162,7 +155,6 @@ class MainUIController:
         else:
             self.settings_controller.update_det_model_path("")
             self.settings_controller.update_rec_model_path("")
-        print("Done!")
 
     # 綁定快捷鍵
     def bind_shortcuts(self) -> None:
@@ -171,10 +163,14 @@ class MainUIController:
         self.parent_Tk.bind("<e>", self.handle_rotate_right_shortcut)
         self.parent_Tk.bind("<p>", self.handle_set_image_pass_shortcut)
         self.parent_Tk.bind("<o>", self.handle_set_image_ng_shortcut)
-    
+
     def bind_button_function(self) -> None:
-        self.image_info_controller.view.pass_button.config(command=self.handle_set_image_pass)
-        self.image_info_controller.view.ng_button.config(command=self.handld_set_image_ng)
+        self.image_info_controller.view.pass_button.config(
+            command=self.handle_set_image_pass
+        )
+        self.image_info_controller.view.ng_button.config(
+            command=self.handld_set_image_ng
+        )
 
     def handle_rotate_left_shortcut(self, event) -> None:
         self.image_editor_controller.rotate_image(90)
@@ -183,24 +179,28 @@ class MainUIController:
         self.image_editor_controller.rotate_image(270)
 
     def handle_set_image_pass(self) -> None:
-        self.image_info_controller.set_image_reuslt('Pass')
+        self.image_info_controller.set_image_reuslt("Pass")
         self.current_image_path = self.image_info_controller.current_image_path
         self.update_folder_path()
         self.current_image_index = 0
-        self.current_image_path = self.image_folder_controller.image_list[self.current_image_index]
+        self.current_image_path = self.image_folder_controller.image_list[
+            self.current_image_index
+        ]
         self.show_image_info()
 
     def handle_set_image_pass_shortcut(self, event) -> None:
         self.handle_set_image_pass()
-    
+
     def handld_set_image_ng(self) -> None:
-        self.image_info_controller.set_image_reuslt('NG')
+        self.image_info_controller.set_image_reuslt("NG")
         self.current_image_path = self.image_info_controller.current_image_path
         self.update_folder_path()
         self.current_image_index = 0
-        self.current_image_path = self.image_folder_controller.image_list[self.current_image_index]
+        self.current_image_path = self.image_folder_controller.image_list[
+            self.current_image_index
+        ]
         self.show_image_info()
-    
+
     def handle_set_image_ng_shortcut(self, event) -> None:
         self.handld_set_image_ng()
 

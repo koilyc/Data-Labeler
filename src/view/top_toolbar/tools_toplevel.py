@@ -28,9 +28,9 @@ class ToolsToplevel:
 
     def pack_rif_components(self):
         self.old_frame.pack(fill=tk.X)
-        self.old_label.grid(column=0, row=0, sticky='w')
-        self.old_entry.grid(column=1, row=0, sticky='e', padx=(0, 10))
+        self.old_label.grid(column=0, row=0, sticky="w")
+        self.old_entry.grid(column=1, row=0, sticky="e", padx=(0, 10))
         self.new_frame.pack(fill=tk.X)
-        self.new_lable.grid(column=0, row=0, sticky='w')
-        self.new_entry.grid(column=1, row=0, sticky='e', padx=(0, 10))
+        self.new_lable.grid(column=0, row=0, sticky="w")
+        self.new_entry.grid(column=1, row=0, sticky="e", padx=(0, 10))
         self.replace_button.pack(anchor="e")
