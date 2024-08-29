@@ -22,8 +22,6 @@ class ImageInfoView:
     def setup_result_info(self):
         self.result_eval_label = tk.Label(self.frame, anchor="w", text="Result")
         self.result_eval_frame = tk.Frame(self.frame)
-        self.pass_button = tk.Button(self.result_eval_frame, text="Pass")
-        self.ng_button = tk.Button(self.result_eval_frame, text="NG")
 
     def pack_components(self):
         self.texts_name_label.pack(fill=tk.X)
@@ -32,5 +30,3 @@ class ImageInfoView:
         self.boxes_listbox.pack(fill=tk.BOTH, expand=True)
         self.result_eval_label.pack(fill=tk.X)
         self.result_eval_frame.pack(fill=tk.BOTH)
-        self.pass_button.grid(column=0, row=0)
-        self.ng_button.grid(column=1, row=0)

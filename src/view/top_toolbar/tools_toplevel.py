@@ -9,7 +9,7 @@ class ToolsToplevel:
 
     def show_replace_in_filename_ui(self):
         self.rif_toplevel = tk.Toplevel(self.parent_Tk)
-        self.rif_toplevel.title("Replace Filename")
+        self.rif_toplevel.title("Replace in Filename")
         self.rif_toplevel.geometry("200x100")
         self.rif_toplevel.resizable(False, False)
         self.rif_toplevel.focus_set()

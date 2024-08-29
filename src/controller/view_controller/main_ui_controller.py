@@ -49,7 +49,6 @@ class MainUIController:
 
         self.load_settings()
         self.bind_shortcuts()
-        self.bind_button_function()
         self.update_image_index()
 
     @property
@@ -163,14 +162,6 @@ class MainUIController:
         self.parent_Tk.bind("<e>", self.handle_rotate_right_shortcut)
         self.parent_Tk.bind("<p>", self.handle_set_image_pass_shortcut)
         self.parent_Tk.bind("<o>", self.handle_set_image_ng_shortcut)
-
-    def bind_button_function(self) -> None:
-        self.image_info_controller.view.pass_button.config(
-            command=self.handle_set_image_pass
-        )
-        self.image_info_controller.view.ng_button.config(
-            command=self.handld_set_image_ng
-        )
 
     def handle_rotate_left_shortcut(self, event) -> None:
         self.image_editor_controller.rotate_image(90)

@@ -31,7 +31,7 @@ class TopToolbarController:
         )
 
         self.view.tool_menu.add_command(
-            label="Rename Files", command=self.replace_in_filename
+            label="Replace in Files", command=self.replace_in_filename
         )
 
     # File command
