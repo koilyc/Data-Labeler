@@ -19,7 +19,7 @@ class ImageFolderView:
         self.index_label = tk.Label(
             self.frame, textvariable=self.index_stringvar, anchor="e"
         )
-    
+
     def pack_components(self):
         self.folder_path_label.pack(fill=tk.X)
         self.listbox.pack(fill=tk.BOTH, expand=True)

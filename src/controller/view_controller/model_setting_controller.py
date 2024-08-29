@@ -9,7 +9,7 @@ class ModelSettingController:
     def __init__(self, parent_Tk: tk.Tk, main_ui_controller: MainUIController) -> None:
         self.parent_Tk = parent_Tk
         self.main_ui_controller = main_ui_controller
-        
+
         self.model_setting_toplevel = ModelSettingToplevel(self.parent_Tk)
 
     def show_setting_model(self) -> None:
@@ -20,16 +20,16 @@ class ModelSettingController:
         folder_path = filedialog.askdirectory()
         self.model_setting_toplevel.top_level.focus_set()
         if folder_path:
-            self.model_setting_toplevel.det_model_text.delete("1.0", tk.END)
-            self.model_setting_toplevel.det_model_text.insert(tk.END, folder_path)
+            self.model_setting_toplevel.det_model_entry.delete("1.0", tk.END)
+            self.model_setting_toplevel.det_model_entry.insert(tk.END, folder_path)
             self.current_det_model = folder_path
 
     def choose_rec_model_folder_path(self):
         folder_path = filedialog.askdirectory()
         self.model_setting_toplevel.top_level.focus_set()
         if folder_path:
-            self.model_setting_toplevel.rec_model_text.delete("1.0", tk.END)
-            self.model_setting_toplevel.rec_model_text.insert(tk.END, folder_path)
+            self.model_setting_toplevel.rec_model_entry.delete("1.0", tk.END)
+            self.model_setting_toplevel.rec_model_entry.insert(tk.END, folder_path)
             self.current_rec_model = folder_path
 
     def confirm(self):

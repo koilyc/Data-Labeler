@@ -12,7 +12,9 @@ class TopToolbarController:
         self.parent_Tk = parent_Tk
         self.main_ui_controller = main_ui_controller
         self.view = TopToolbarView(parent_Tk)
-        self.model_setting_controller = ModelSettingController(parent_Tk, main_ui_controller)
+        self.model_setting_controller = ModelSettingController(
+            parent_Tk, main_ui_controller
+        )
 
         self.setup_menu_command()
 
@@ -24,7 +26,13 @@ class TopToolbarController:
             label="OCR Current (Ctrl + O)", command=self.ocr_current_image
         )
         self.view.model_menu.add_command(label="OCR All", command=self.ocr_all_images)
-        self.view.model_menu.add_command(label="Model Setting", command=self.model_setting)
+        self.view.model_menu.add_command(
+            label="Model Setting", command=self.model_setting
+        )
+
+        self.view.tool_menu.add_command(
+            label="Rename Files", command=self.replace_in_filename
+        )
 
     # File command
     def open_folder(self) -> None:
@@ -38,9 +46,14 @@ class TopToolbarController:
 
     def ocr_all_images(self) -> None:
         self.main_ui_controller.show_ocr_progress()
-    
+
     def model_setting(self) -> None:
         self.model_setting_controller.show_setting_model()
+
+    # Tool command
+    def replace_in_filename(self) -> None:
+        self.main_ui_controller.replace_in_filenames()
+        self.main_ui_controller.update_folder_path()
 
     # Shortcuts
     def ocr_current_image_shortcut(self, event) -> None:

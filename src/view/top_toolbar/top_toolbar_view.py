@@ -20,7 +20,7 @@ class TopToolbarView:
             width=TOOLBAR_BUTTON_WIDTH,
             command=lambda: self.display_menu(self.file_button, self.file_menu),
         )
-        
+
         self.model_button = tk.Button(
             self.frame,
             text="Model",
@@ -28,22 +28,34 @@ class TopToolbarView:
             command=lambda: self.display_menu(self.model_button, self.model_menu),
         )
 
+        self.tool_button = tk.Button(
+            self.frame,
+            text="Tool",
+            width=TOOLBAR_BUTTON_WIDTH,
+            command=lambda: self.display_menu(self.tool_button, self.tool_menu),
+        )
+
         self.pack_button()
 
     def pack_button(self) -> None:
         self.file_button.pack(side=tk.LEFT)
         self.model_button.pack(side=tk.LEFT)
-    
+        self.tool_button.pack(side=tk.LEFT)
+
     # 下拉式選單
     def setup_menu(self) -> None:
         self.setup_file_menu()
         self.setup_model_menu()
+        self.setup_tool_menu()
 
     def setup_file_menu(self) -> None:
         self.file_menu = tk.Menu(self.frame, tearoff=0)
 
     def setup_model_menu(self) -> None:
         self.model_menu = tk.Menu(self.frame, tearoff=0)
+
+    def setup_tool_menu(self) -> None:
+        self.tool_menu = tk.Menu(self.frame, tearoff=0)
 
     def display_menu(self, target_button: tk.Button, target_menu: tk.Menu) -> None:
         button_x = target_button.winfo_rootx()

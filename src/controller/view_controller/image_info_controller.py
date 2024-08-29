@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 
 from view.main_ui.image_info_view import ImageInfoView
@@ -50,7 +51,7 @@ class ImageInfoController:
         self.current_boxes = []
         self.current_texts = []
         self.current_scores = []
-    
+
     def update_texts_listbox(self, texts: list) -> None:
         self.view.texts_listbox.delete(0, tk.END)
         self.view.texts_listbox.insert(tk.END, *texts)
@@ -58,3 +59,10 @@ class ImageInfoController:
     def update_boxes_listbox(self, boxes: list) -> None:
         self.view.boxes_listbox.delete(0, tk.END)
         self.view.boxes_listbox.insert(tk.END, *boxes)
+    
+    def set_image_reuslt(self, result: str):
+        directory, filename = os.path.split(self.current_image_path)
+        new_filename = f'{result}-' + filename
+        new_path = os.path.join(directory, new_filename)
+        os.rename(self.current_image_path, new_path)
+        self.current_image_path = new_path
