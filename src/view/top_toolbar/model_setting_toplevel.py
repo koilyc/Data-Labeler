@@ -10,8 +10,8 @@ class ModelSettingToplevel:
         self.top_level: tk.Toplevel
 
         self.lang_options = ["en", "ch", "chinese_cht"]
-        self.current_det_model = None
-        self.current_rec_model = None
+        self.current_det_model = ""
+        self.current_rec_model = ""
 
     def show_ui(self):
         self.show_toplevel()

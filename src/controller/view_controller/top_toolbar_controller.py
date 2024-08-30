@@ -33,6 +33,7 @@ class TopToolbarController:
         self.view.tool_menu.add_command(
             label="Replace in Files", command=self.replace_in_filename
         )
+        self.view.tool_menu.add_command(label="Evaluate", command=self.evaluate)
 
     # File command
     def open_folder(self) -> None:
@@ -54,6 +55,9 @@ class TopToolbarController:
     def replace_in_filename(self) -> None:
         self.main_ui_controller.replace_in_filenames()
         self.main_ui_controller.update_folder_path()
+
+    def evaluate(self) -> None:
+        self.main_ui_controller.evaluate()
 
     # Shortcuts
     def ocr_current_image_shortcut(self, event) -> None:

@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 
 from tkinter import filedialog
@@ -38,16 +39,18 @@ class ModelSettingController:
             self.model_setting_toplevel.current_lang, selected_model
         )
         self.main_ui_controller.settings_controller.update_det_model_path(
-            self.model_setting_toplevel.current_det_model
+            self.current_det_model
         )
         self.main_ui_controller.settings_controller.update_rec_model_path(
-            self.model_setting_toplevel.current_rec_model
+            self.current_rec_model
         )
+        self.main_ui_controller.image_info_controller.view.det_model_stringvar.set(f"det: {os.path.basename(self.current_det_model)}")
+        self.main_ui_controller.image_info_controller.view.rec_model_stringvar.set(f"rec: {os.path.basename(self.current_rec_model)}")
         self.model_setting_toplevel.top_level.destroy()
 
     def cancel(self):
-        self.current_det_model = None
-        self.current_rec_model = None
+        self.current_det_model = ""
+        self.current_rec_model = ""
         self.model_setting_toplevel.top_level.destroy()
 
     def setup_model_setting_button(self):

@@ -1,5 +1,5 @@
 {
-    "image-folder-path": "C:/Users/koi_lin/Documents/Project/Datasets/20240829/0829_OCR_proc/37",
-    "det-model-path": null,
-    "rec-model-path": null
+    "image-folder-path": "C:/Users/koi_lin/Documents/Project/Datasets/20240826/GGamma2NGb3I/634",
+    "det-model-path": "C:/Users/koi_lin/Documents/OCR/Models/Teacher_det01_infer",
+    "rec-model-path": "C:/Users/koi_lin/Documents/OCR/Models/en_PP-OCRv4_rec_infer"
 }

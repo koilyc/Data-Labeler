@@ -1,3 +1,4 @@
+import os
 import threading
 import tkinter as tk
 
@@ -103,7 +104,7 @@ class MainUIController:
             self.data_controller.load_jpg_files_in_folder(self.current_folder_path)
         )
         self.all_ocr_results = [
-            {"boxes": None, "texts": None, "scores": None}
+            {"boxes": [], "texts": [], "scores": []}
             for _ in range(len(self.image_folder_controller.image_list))
         ]
         self.settings_controller.update_image_folder_path(self.current_folder_path)
@@ -154,6 +155,9 @@ class MainUIController:
         else:
             self.settings_controller.update_det_model_path("")
             self.settings_controller.update_rec_model_path("")
+        
+        self.image_info_controller.view.det_model_stringvar.set(f"det: {os.path.basename(det_model_path)}")
+        self.image_info_controller.view.rec_model_stringvar.set(f"rec: {os.path.basename(rec_model_path)}")
 
     # 綁定快捷鍵
     def bind_shortcuts(self) -> None:
@@ -256,3 +260,16 @@ class MainUIController:
     # 小工具功能
     def replace_in_filenames(self):
         self.tools_controller.show_replace_in_filenames(self.current_folder_path)
+
+    def evaluate(self):
+        golden = os.path.basename(self.current_folder_path)
+        good = 0
+        for result in self.all_ocr_results:
+            texts = result["texts"]
+            for text in texts:
+                if text.find(golden) != -1:
+                    good += 1
+
+        self.image_info_controller.view.good_result_stringvar.set(
+            f"{good}/{self.image_folder_controller.image_count}\tAccaracy: {int(good*100/self.image_folder_controller.image_count)}%"
+        )
