@@ -20,7 +20,7 @@ class ModelSettingController:
         folder_path = filedialog.askdirectory()
         self.model_setting_toplevel.top_level.focus_set()
         if folder_path:
-            self.model_setting_toplevel.det_model_entry.delete("1.0", tk.END)
+            self.model_setting_toplevel.det_model_entry.delete(0, tk.END)
             self.model_setting_toplevel.det_model_entry.insert(tk.END, folder_path)
             self.current_det_model = folder_path
 
@@ -28,7 +28,7 @@ class ModelSettingController:
         folder_path = filedialog.askdirectory()
         self.model_setting_toplevel.top_level.focus_set()
         if folder_path:
-            self.model_setting_toplevel.rec_model_entry.delete("1.0", tk.END)
+            self.model_setting_toplevel.rec_model_entry.delete(0, tk.END)
             self.model_setting_toplevel.rec_model_entry.insert(tk.END, folder_path)
             self.current_rec_model = folder_path
 
