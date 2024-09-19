@@ -30,7 +30,6 @@ class OCRModel:
             lang=lang,
             det_model_dir=model_dir["det"],
             rec_model_dir=model_dir["rec"],
-            det_db_thresh=0.0001,
         )
         print("Done!")
 

@@ -34,6 +34,9 @@ class TopToolbarController:
             label="Replace in Files", command=self.replace_in_filename
         )
         self.view.tool_menu.add_command(label="Evaluate", command=self.evaluate)
+        self.view.tool_menu.add_command(
+            label="Output OCR Results", command=self.output_ocr_results
+        )
 
     # File command
     def open_folder(self) -> None:
@@ -58,6 +61,9 @@ class TopToolbarController:
 
     def evaluate(self) -> None:
         self.main_ui_controller.evaluate()
+
+    def output_ocr_results(self) -> None:
+        self.main_ui_controller.output_ocr_results()
 
     # Shortcuts
     def ocr_current_image_shortcut(self, event) -> None:

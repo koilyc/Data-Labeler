@@ -273,3 +273,6 @@ class MainUIController:
         self.image_info_controller.view.good_result_stringvar.set(
             f"{good}/{self.image_folder_controller.image_count}\tAccaracy: {int(good*100/self.image_folder_controller.image_count)}%"
         )
+    
+    def output_ocr_results(self) -> None:
+        self.tools_controller.output_ocr_results(self.all_ocr_results)

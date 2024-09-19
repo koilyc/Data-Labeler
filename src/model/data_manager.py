@@ -16,5 +16,5 @@ class DataManager:
         self._jpg_files = [
             os.path.join(folder_path, file)
             for file in os.listdir(folder_path)
-            if file.lower().endswith(".jpg")
+            if file.lower().endswith((".png", ".jpg"))
         ]

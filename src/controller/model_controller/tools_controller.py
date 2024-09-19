@@ -22,3 +22,6 @@ class ToolsController:
             self.view.new_entry.get(),
         )
         self.view.rif_toplevel.destroy()
+    
+    def output_ocr_results(self, results: list) -> None:
+        self.tools.output_ocr_results(results)
